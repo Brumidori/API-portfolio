@@ -2,30 +2,28 @@ package br.com.igbr.portfolioApi.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.URL;
 
 @Entity
-@Table(name = "tags")
+@Table(name = "galery")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Tag {
-
+public class GaleryModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idTag;
+    private Long id;
 
-    @NotBlank
-    @Size(min = 2, max = 125)
-    private String name;
+    @URL
+    private String imageUrl;
 
     @ManyToOne
-    @JsonIgnoreProperties("tags")
-    private UserModel user;
+    @JsonIgnoreProperties("galery")
+    private ProjectModel project;
+
 }
