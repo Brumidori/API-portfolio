@@ -1,4 +1,4 @@
-package model;
+package br.com.igbr.portfolioApi.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -48,9 +48,7 @@ public class UserModel {
     @URL
     private String linkGithub;
 
-    private List<Project> projects;
-
-    @OneToMany (mappedBy = "users", cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties("users")
+    @OneToMany (mappedBy = "user", cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties("user")
     private List<Tag> tags;
 }

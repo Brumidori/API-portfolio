@@ -1,5 +1,6 @@
-package model;
+package br.com.igbr.portfolioApi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -23,4 +24,8 @@ public class Tag {
     @NotBlank
     @Size(min = 2, max = 125)
     private String name;
+
+    @ManyToOne
+    @JsonIgnoreProperties("tags")
+    private UserModel user;
 }
