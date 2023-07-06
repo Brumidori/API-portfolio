@@ -31,13 +31,13 @@ public class TagController {
     }
 
     @PostMapping
-    public ResponseEntity<TagModel> post (@RequestBody TagModel temas){
-        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(temas));
+    public ResponseEntity<TagModel> post (@RequestBody TagModel tags){
+        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(tags));
     }
 
     @PutMapping
-    public ResponseEntity<TagModel> put (@RequestBody TagModel temas){
-        return ResponseEntity.status(HttpStatus.OK).body(repository.save(temas));
+    public ResponseEntity<TagModel> put (@RequestBody TagModel tags){
+        return ResponseEntity.status(HttpStatus.OK).body(repository.save(tags));
     }
 
     @DeleteMapping("/{id}")

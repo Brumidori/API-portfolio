@@ -27,10 +27,6 @@ public class TagModel {
     @Size(min = 2, max = 125)
     private String name;
 
-    @ManyToOne
-    @JsonIgnoreProperties("tags")
-    private UserModel user;
-
     @ManyToMany(mappedBy="tags")
     private Set<ProjectModel> project;
 }
