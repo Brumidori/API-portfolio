@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface ProjectRepository extends JpaRepository<ProjectModel, Long> {
 
-    public List<ProjectModel> findAllByTagContainingIgnoreCase (String tag);
+    public List<ProjectModel> findAllByTagsContainingIgnoreCase (String tag);
 
 }

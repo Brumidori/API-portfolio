@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -28,5 +29,6 @@ public class TagModel {
     private String name;
 
     @ManyToMany(mappedBy="tags")
+    @JsonIgnoreProperties("tags")
     private Set<ProjectModel> project;
 }

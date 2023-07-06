@@ -9,21 +9,21 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 
 @Entity
-@Table(name = "galery")
+@Table(name = "gallery")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GaleryModel {
+public class GalleryModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idGallery;
 
     @URL
     private String imageUrl;
 
     @ManyToOne
-    @JsonIgnoreProperties("galery")
+    @JsonIgnoreProperties("galleries")
     private ProjectModel project;
 
 }

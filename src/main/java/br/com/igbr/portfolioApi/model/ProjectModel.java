@@ -8,8 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.URL;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -43,8 +43,8 @@ public class ProjectModel {
     @URL
     private String linkCode;
 
-    @UpdateTimestamp
-    private LocalDate data;
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    private LocalDate referenceDate;
 
     @ManyToOne
     @JsonIgnoreProperties("projects")
@@ -52,10 +52,11 @@ public class ProjectModel {
 
 
     @OneToMany (mappedBy = "project", cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties("project")
-    private List<GaleryModel> galery;
+    @JsonIgnoreProperties(value = "project")
+    private List<GalleryModel> galleries;
 
     @ManyToMany
+    @JsonIgnoreProperties("project")
     @JoinTable(name="tags_project",
             joinColumns=
             @JoinColumn(name="project", referencedColumnName="idProject"),

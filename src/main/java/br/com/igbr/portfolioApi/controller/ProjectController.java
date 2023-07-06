@@ -31,13 +31,13 @@ public class ProjectController {
     }
 
     @PostMapping
-    public ResponseEntity<ProjectModel> post (@RequestBody ProjectModel tags){
-        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(tags));
+    public ResponseEntity<ProjectModel> post (@RequestBody ProjectModel project){
+        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(project));
     }
 
     @PutMapping
-    public ResponseEntity<ProjectModel> put (@RequestBody ProjectModel tags){
-        return ResponseEntity.status(HttpStatus.OK).body(repository.save(tags));
+    public ResponseEntity<ProjectModel> put (@RequestBody ProjectModel project){
+        return ResponseEntity.status(HttpStatus.OK).body(repository.save(project));
     }
 
     @DeleteMapping("/{id}")
