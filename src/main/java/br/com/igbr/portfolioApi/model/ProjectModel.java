@@ -8,8 +8,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.URL;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -40,6 +42,9 @@ public class ProjectModel {
 
     @URL
     private String linkCode;
+
+    @UpdateTimestamp
+    private LocalDate data;
 
     @ManyToOne
     @JsonIgnoreProperties("projects")
