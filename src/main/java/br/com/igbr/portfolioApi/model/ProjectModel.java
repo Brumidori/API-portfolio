@@ -9,7 +9,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -41,16 +43,20 @@ public class ProjectModel {
     @URL
     private String linkCode;
 
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    private LocalDate referenceDate;
+
     @ManyToOne
     @JsonIgnoreProperties("projects")
     private UserModel user;
 
 
     @OneToMany (mappedBy = "project", cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties("project")
-    private List<GaleryModel> galery;
+    @JsonIgnoreProperties(value = "project")
+    private List<GalleryModel> galleries;
 
     @ManyToMany
+    @JsonIgnoreProperties("project")
     @JoinTable(name="tags_project",
             joinColumns=
             @JoinColumn(name="project", referencedColumnName="idProject"),
