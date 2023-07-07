@@ -64,7 +64,4 @@ public class ProjectModel {
             @JoinColumn(name="tag", referencedColumnName="idTag")
     )
     private Set<TagModel> tags;
-
-
-
 }
