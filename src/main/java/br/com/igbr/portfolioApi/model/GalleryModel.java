@@ -25,5 +25,4 @@ public class GalleryModel {
     @ManyToOne
     @JsonIgnoreProperties("galleries")
     private ProjectModel project;
-
 }

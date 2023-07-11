@@ -51,5 +51,4 @@ public class UserModel {
     @OneToMany (mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties("user")
     private List<ProjectModel> projects;
-
 }
