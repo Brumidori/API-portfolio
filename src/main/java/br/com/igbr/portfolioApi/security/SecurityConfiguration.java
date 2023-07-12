@@ -43,26 +43,18 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers(HttpMethod.POST, "/user").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user/signUp").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/projects").permitAll()
                         .requestMatchers(HttpMethod.GET, "/tags").permitAll()
                         .requestMatchers(HttpMethod.GET, "/gallery").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(withDefaults())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(withDefaults())
-                .csrf(csrf -> csrf.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .csrf(csrf -> csrf.disable());
         return http.build();
     }
-
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return (web) -> web.ignoring().anyRequest()
-//                .requestMatchers(HttpMethod.POST, "/user")
-//                .requestMatchers(HttpMethod.GET, "/gallary");
-//    }
-
-
 }
 

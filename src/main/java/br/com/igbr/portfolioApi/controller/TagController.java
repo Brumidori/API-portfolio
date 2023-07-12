@@ -1,13 +1,17 @@
 package br.com.igbr.portfolioApi.controller;
 
+import br.com.igbr.portfolioApi.dto.TagDTO;
 import br.com.igbr.portfolioApi.model.TagModel;
 import br.com.igbr.portfolioApi.repository.TagRepository;
+import br.com.igbr.portfolioApi.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/tags")
@@ -15,33 +19,38 @@ import java.util.List;
 public class TagController {
 
     @Autowired
-    private TagRepository repository;
+    private TagService service;
 
     @GetMapping
-    public ResponseEntity<List<TagModel>> getAll(){
-        return ResponseEntity.ok(repository.findAll());
+    public ResponseEntity<List<TagDTO>> getAll(){
+        return ResponseEntity.ok(service.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TagModel> getById(@PathVariable Long id){
-        return repository.findById(id)
+    public ResponseEntity<TagDTO> getById(@PathVariable Long id){
+        return service.findById(id)
                 .map(resposta -> ResponseEntity.ok(resposta))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-
     }
 
     @PostMapping
-    public ResponseEntity<TagModel> post (@RequestBody TagModel tags){
-        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(tags));
+    public ResponseEntity<TagDTO> post (@RequestBody TagModel tag){
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(tag));
     }
 
     @PutMapping
-    public ResponseEntity<TagModel> put (@RequestBody TagModel tags){
-        return ResponseEntity.status(HttpStatus.OK).body(repository.save(tags));
+    public ResponseEntity<TagDTO> put (@RequestBody TagModel tag){
+        return service.findById(tag.getIdTag())
+                        .map(resposta -> ResponseEntity.status(HttpStatus.OK)
+                        .body(service.save(tag)))
+                        .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        repository.deleteById(id);
+        Optional<TagDTO> dto = service.findById(id);
+        if(dto.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        service.deleteById(id);
     }
 }

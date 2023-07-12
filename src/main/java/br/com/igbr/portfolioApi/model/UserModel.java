@@ -32,7 +32,7 @@ public class UserModel {
     private String email;
 
     @NotBlank
-    @Size(min = 8, max = 16, message = "A senha deve ter no minimo 8 catacteres")
+    @Size(min = 8, message = "A senha deve ter no minimo 8 catacteres")
     private String password;
 
     @NotBlank
