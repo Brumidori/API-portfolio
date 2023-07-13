@@ -1,6 +1,6 @@
 package br.com.igbr.portfolioApi.service;
 
-import br.com.igbr.portfolioApi.dto.UserLogin;
+import br.com.igbr.portfolioApi.dto.UserLoginDTO;
 import br.com.igbr.portfolioApi.model.UserModel;
 import br.com.igbr.portfolioApi.repository.UserRepository;
 import org.apache.commons.codec.binary.Base64;
@@ -44,7 +44,7 @@ public class UserService {
         return Optional.empty();
     }
 
-    public Optional<UserLogin> authenticUser(Optional<UserLogin> userLogin) {
+    public Optional<UserLoginDTO> authenticUser(Optional<UserLoginDTO> userLogin) {
         Optional<UserModel> user = userRepository.findByEmail(userLogin.get().getEmail());
 
         if (user.isPresent()) {
