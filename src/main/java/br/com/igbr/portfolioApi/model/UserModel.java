@@ -1,5 +1,6 @@
 package br.com.igbr.portfolioApi.model;
 
+import br.com.igbr.portfolioApi.dto.UserDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -10,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
+import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 
@@ -51,4 +53,8 @@ public class UserModel {
     @OneToMany (mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties("user")
     private List<ProjectModel> projects;
+
+    public UserModel(UserDTO dto){
+        BeanUtils.copyProperties(dto, this);
+    }
 }
