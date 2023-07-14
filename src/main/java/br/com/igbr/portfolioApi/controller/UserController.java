@@ -1,16 +1,18 @@
 package br.com.igbr.portfolioApi.controller;
 
+import br.com.igbr.portfolioApi.dto.TagDTO;
+import br.com.igbr.portfolioApi.dto.UserDTO;
 import br.com.igbr.portfolioApi.dto.UserLoginDTO;
-import br.com.igbr.portfolioApi.model.TagModel;
 import br.com.igbr.portfolioApi.model.UserModel;
 import br.com.igbr.portfolioApi.repository.TagRepository;
-import br.com.igbr.portfolioApi.repository.UserRepository;
 import br.com.igbr.portfolioApi.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,35 +23,26 @@ import java.util.Optional;
 public class UserController {
 
     @Autowired
-    private UserRepository repository;
-
-    @Autowired
-    private TagRepository tagRepository;
-
-    @Autowired
     private UserService userService;
 
     @GetMapping
     public ResponseEntity<List<UserModel>> getAll(){
-        return ResponseEntity.ok(repository.findAll());
+        return ResponseEntity.ok(userService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserModel> getById(@PathVariable Long id){
-        return repository.findById(id)
+    public ResponseEntity<UserDTO> getById(@PathVariable Long id){
+        return userService.findById(id)
                 .map(resposta -> ResponseEntity.ok(resposta))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-
-    }
-
-    @PostMapping
-    public ResponseEntity<UserModel> post (@RequestBody UserModel user){
-        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(user));
     }
 
     @PutMapping
-    public ResponseEntity<UserModel> put (@RequestBody UserModel user){
-        return ResponseEntity.status(HttpStatus.OK).body(repository.save(user));
+    public ResponseEntity<UserDTO> put (@RequestBody UserDTO user){
+        return userService.findById(user.getIdUser())
+                .map(resposta -> ResponseEntity.status(HttpStatus.OK)
+                                .body(userService.save(user)))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @PostMapping("/login")
@@ -66,9 +59,11 @@ public class UserController {
                 .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
     }
 
-
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        repository.deleteById(id);
+        Optional<UserDTO> dto = userService.findById(id);
+        if(dto.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        userService.deleteById(id);
     }
 }

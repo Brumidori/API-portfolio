@@ -1,7 +1,9 @@
 package br.com.igbr.portfolioApi.controller;
 
+import br.com.igbr.portfolioApi.dto.GalleryDTO;
 import br.com.igbr.portfolioApi.model.GalleryModel;
 import br.com.igbr.portfolioApi.repository.GalleryRepository;
+import br.com.igbr.portfolioApi.service.GalleryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,33 +16,36 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class GalleryController {
     @Autowired
+    private GalleryService service;
+
+    @Autowired
     private GalleryRepository repository;
 
     @GetMapping
-    public ResponseEntity<List<GalleryModel>> getAll(){
-        return ResponseEntity.ok(repository.findAll());
+    public ResponseEntity<List<GalleryDTO>> getAll(){
+        return ResponseEntity.ok(service.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GalleryModel> getById(@PathVariable Long id){
-        return repository.findById(id)
+    public ResponseEntity<GalleryDTO> getById(@PathVariable Long id){
+        return service.findById(id)
                 .map(resposta -> ResponseEntity.ok(resposta))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 
     }
 
     @PostMapping
-    public ResponseEntity<GalleryModel> post (@RequestBody GalleryModel data){
-        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(data));
+    public ResponseEntity<GalleryDTO> post (@RequestBody GalleryModel data){
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(data));
     }
 
     @PutMapping
-    public ResponseEntity<GalleryModel> put (@RequestBody GalleryModel data){
-        return ResponseEntity.status(HttpStatus.OK).body(repository.save(data));
+    public ResponseEntity<GalleryDTO> put (@RequestBody GalleryModel data){
+        return ResponseEntity.status(HttpStatus.OK).body(service.update(data));
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        repository.deleteById(id);
+        service.deleteById(id);
     }
 }
