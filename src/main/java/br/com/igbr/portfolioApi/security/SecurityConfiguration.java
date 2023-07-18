@@ -61,6 +61,7 @@ public class SecurityConfiguration {
         http
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers(HttpMethod.POST, "/user/signUp").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/user").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/projects").permitAll()
                         .requestMatchers(HttpMethod.GET, "/tags").permitAll()

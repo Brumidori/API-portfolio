@@ -47,10 +47,11 @@ public class TagController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity delete(@PathVariable Long id) {
         Optional<TagDTO> dto = service.findById(id);
         if(dto.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         service.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
