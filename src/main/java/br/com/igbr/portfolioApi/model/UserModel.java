@@ -30,14 +30,14 @@ public class UserModel {
     @Size(min = 2, max = 125, message = "O nome deve conter no mínimo 2 e no máximo 125 caracteres")
     private String name;
 
-    @Email
+    @NotBlank
+    @Email(message = "Email obrigatorio")
     private String email;
 
     @NotBlank
     @Size(min = 8, message = "A senha deve ter no minimo 8 catacteres")
     private String password;
 
-    @NotBlank
     @Size(min = 2, max = 1000, message = "A biografia deve ter no maximo 1000 caracteres")
     private String biography;
 
