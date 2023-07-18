@@ -60,10 +60,11 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity delete(@PathVariable Long id) {
         Optional<UserDTO> dto = userService.findById(id);
         if(dto.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         userService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
