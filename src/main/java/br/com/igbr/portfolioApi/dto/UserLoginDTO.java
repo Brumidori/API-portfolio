@@ -11,12 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserLoginDTO {
     private Long idUser;
-    private String name;
     private String email;
     private String password;
     private String token;
-    private String biography;
-    private String profilePicture;
-    private String linkLinkedin;
-    private String linkGithub;
 }
