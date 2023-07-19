@@ -1,13 +1,16 @@
 package br.com.igbr.portfolioApi.controller;
 
+import br.com.igbr.portfolioApi.dto.ProjectDTO;
 import br.com.igbr.portfolioApi.model.ProjectModel;
-import br.com.igbr.portfolioApi.repository.ProjectRepository;
+import br.com.igbr.portfolioApi.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/projects")
@@ -15,33 +18,38 @@ import java.util.List;
 public class ProjectController {
 
     @Autowired
-    private ProjectRepository repository;
+    private ProjectService service;
 
     @GetMapping
-    public ResponseEntity<List<ProjectModel>> getAll(){
-        return ResponseEntity.ok(repository.findAll());
+    public ResponseEntity<List<ProjectDTO>> getAll(){
+        return ResponseEntity.ok(service.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProjectModel> getById(@PathVariable Long id){
-        return repository.findById(id)
+    public ResponseEntity<ProjectDTO> getById(@PathVariable Long id){
+        return service.findById(id)
                 .map(resposta -> ResponseEntity.ok(resposta))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 
     }
 
     @PostMapping
-    public ResponseEntity<ProjectModel> post (@RequestBody ProjectModel project){
-        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(project));
+    public ResponseEntity<ProjectDTO> post (@RequestBody ProjectModel project){
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(project));
     }
 
     @PutMapping
-    public ResponseEntity<ProjectModel> put (@RequestBody ProjectModel project){
-        return ResponseEntity.status(HttpStatus.OK).body(repository.save(project));
+    public ResponseEntity<ProjectDTO> put (@RequestBody ProjectModel project){
+        return ResponseEntity.status(HttpStatus.OK).body(service.save(project));
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        repository.deleteById(id);
+    public ResponseEntity delete(@PathVariable Long id){
+        Optional<ProjectDTO> dto = service.findById(id);
+        if(dto.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
+
 }
