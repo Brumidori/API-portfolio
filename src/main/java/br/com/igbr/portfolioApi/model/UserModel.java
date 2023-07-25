@@ -57,4 +57,15 @@ public class UserModel {
     public UserModel(UserDTO dto){
         BeanUtils.copyProperties(dto, this);
     }
+
+    public UserModel(Long idUser, String name, String email, String password, String biography, String profilePicture, String linkLinkedin, String linkGithub) {
+        this.idUser = idUser;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.biography = biography;
+        this.profilePicture = profilePicture;
+        this.linkLinkedin = linkLinkedin;
+        this.linkGithub = linkGithub;
+    }
 }
