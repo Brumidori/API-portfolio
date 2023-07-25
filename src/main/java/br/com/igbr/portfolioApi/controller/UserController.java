@@ -1,16 +1,13 @@
 package br.com.igbr.portfolioApi.controller;
 
-import br.com.igbr.portfolioApi.dto.TagDTO;
 import br.com.igbr.portfolioApi.dto.UserDTO;
 import br.com.igbr.portfolioApi.dto.UserLoginDTO;
 import br.com.igbr.portfolioApi.model.UserModel;
-import br.com.igbr.portfolioApi.repository.TagRepository;
 import br.com.igbr.portfolioApi.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
