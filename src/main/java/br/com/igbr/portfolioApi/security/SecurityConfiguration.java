@@ -26,38 +26,13 @@ public class SecurityConfiguration {
     @Autowired
     private UserDetailsService userDetailsService;
 
-//    @Bean
-//    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
-//        UserDetails user = User.withDefaultPasswordEncoder()
-//                .username("root")
-//                .password(passwordEncoder().encode("root"))
-//                .roles("USER")
-//                .build();
-//        return new InMemoryUserDetailsManager(user);
-//    }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // Parece que não é possível utilizar Security filter chain com websecurity customizer
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-        UserDetails user = User.withUsername("root")
-                .password(passwordEncoder().encode("root"))
-                .roles("USER")
-                .build();
-
-        InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager(user);
-
-        UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken> wrapper =
-                new UserDetailsByNameServiceWrapper<>(userDetailsManager);
-
-        PreAuthenticatedAuthenticationProvider preAuthProvider = new PreAuthenticatedAuthenticationProvider();
-        preAuthProvider.setPreAuthenticatedUserDetailsService(wrapper);
-
         http
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers(HttpMethod.POST, "/user/signUp").permitAll()
