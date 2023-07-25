@@ -37,7 +37,7 @@ public class ProjectControllerTest {
                 data, null, null, null));
 
         ResponseEntity<ProjectDTO> resposta = testRestTemplate
-                .withBasicAuth("root", "root")
+                //.withBasicAuth("root", "root")
                 .exchange("/projects", HttpMethod.POST, requisicao, ProjectDTO.class);
 
         assertEquals(HttpStatus.CREATED,resposta.getStatusCode());
