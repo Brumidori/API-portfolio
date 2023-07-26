@@ -64,4 +64,15 @@ public class ProjectModel {
             @JoinColumn(name="tag", referencedColumnName="idTag")
     )
     private Set<TagModel> tags;
+
+    public ProjectModel(Long idProject, String name, String description, String projectPicture, String linkDeploy, String linkCode, LocalDate referenceDate, UserModel user) {
+        this.idProject = idProject;
+        this.name = name;
+        this.description = description;
+        this.projectPicture = projectPicture;
+        this.linkDeploy = linkDeploy;
+        this.linkCode = linkCode;
+        this.referenceDate = referenceDate;
+        this.user = user;
+    }
 }
