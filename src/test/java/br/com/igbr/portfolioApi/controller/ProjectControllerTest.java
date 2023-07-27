@@ -53,11 +53,11 @@ public class ProjectControllerTest {
         tagRepository.deleteAll();
         galleryRepository.deleteAll();
 
-        UserModel user = new UserModel(0L, "Testerino", "teste@teste.com",
+        UserDTO user = new UserDTO(0L, "Testerino", "teste@teste.com",
                 "teste123", "Perfil do teste", "https://imgur.com/u9RkTCj",
                 "https://teste.linkedin.com", "https://teste.github.com");
 
-        Optional<UserModel> newUser = userService.signUpUser(user);
+        Optional<UserDTO> newUser = userService.signUpUser(user);
     }
     @Test
     @Order(1)

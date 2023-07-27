@@ -14,11 +14,13 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -38,11 +40,11 @@ public class UserControllerTest {
     void start(){
         repository.deleteAll();
 
-        UserModel user = new UserModel(0L, "Testerino", "teste@teste.com",
+        UserDTO user = new UserDTO(0L, "Testerino", "teste@teste.com",
                 "teste123", "Perfil do teste", "https://imgur.com/u9RkTCj",
                 "https://teste.linkedin.com", "https://teste.github.com");
 
-        Optional<UserModel> newUser = service.signUpUser(user);
+        Optional<UserDTO> newUser = service.signUpUser(user);
     }
 
     @Test
@@ -50,15 +52,50 @@ public class UserControllerTest {
     @DisplayName("Cadastrar Um Usuario")
     public void deveCriarUmUser() {
 
-        HttpEntity<UserModel> requisicao = new HttpEntity<UserModel>(new UserModel(0L, "Testerino",
+        HttpEntity<UserDTO> requisicao = new HttpEntity<UserDTO>(new UserDTO(0L, "Testerino",
                 "teste1@teste.com", "teste1234", "Perfil do teste",
                 "https://imgur.com/u9RkTCj","https://teste.linkedin.com",
                 "https://teste.github.com"));
 
-        ResponseEntity<UserModel> resposta = testRestTemplate
-                .exchange("/user/signUp", HttpMethod.POST, requisicao, UserModel.class);
+        ResponseEntity<UserDTO> resposta = testRestTemplate
+                .exchange("/user/signUp", HttpMethod.POST, requisicao, UserDTO.class);
 
         assertEquals(HttpStatus.CREATED,resposta.getStatusCode());
+    }
+
+    @Test
+    @Order(7)
+    @DisplayName("Erro ao cadastrar Usuario")
+    public void deveApontarErroUsuarioSemSenha() {
+
+        HttpEntity<UserDTO> requisicao = new HttpEntity<>(new UserDTO(0L, "",
+                "teste1@email.com", "", "Perfil do teste",
+                "https://imgur.com/u9RkTCj", "https://teste.linkedin.com",
+                "https://teste.github.com"));
+
+        ResponseEntity<String> resposta = testRestTemplate
+                //a classe esperada eh erro e nao UserDto
+                .exchange("/user/signUp", HttpMethod.POST, requisicao, String.class);
+
+        assertEquals(HttpStatus.BAD_REQUEST, resposta.getStatusCode());
+        assertTrue(resposta.getBody().contains("password"));
+    }
+
+    @Test
+    @Order(8)
+    @DisplayName("Erro ao cadastrar Usuario")
+    public void deveApontarErroCriarUmUserURLErrada() {
+
+        HttpEntity<UserDTO> requisicao = new HttpEntity<UserDTO>(new UserDTO(0L, "Testerino",
+                "teste1@teste.com", "teste1234", "Perfil do teste",
+                "https://imgur.com/u9RkTCj","este.linkedin.com",
+                "https://teste.github.com"));
+
+        ResponseEntity<String> resposta = testRestTemplate
+                //a classe esperada eh erro e nao UserDto
+                .exchange("/user/signUp", HttpMethod.POST, requisicao, String.class);
+
+        assertEquals(HttpStatus.BAD_REQUEST, resposta.getStatusCode());
     }
 
     @Test
@@ -116,9 +153,9 @@ public class UserControllerTest {
     public void deveAtualizarUmUser() {
 
         HttpEntity<UserDTO> requisicao = new HttpEntity<UserDTO>(new UserDTO(1L, "Testerino",
-                "teste@teste.com", "Perfil do teste",
+                "teste123@teste.com", "", "Perfil do teste",
                 "https://imgur.com/u9RkTCj","https://teste.linkedin.com",
-                "https://teste123.github.com"));
+                "https://teste.github.com"));
 
         ResponseEntity<UserDTO> resposta = testRestTemplate
                 .withBasicAuth("teste@teste.com", "teste123")
