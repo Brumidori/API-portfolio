@@ -68,7 +68,7 @@ public class UserControllerTest {
     @DisplayName("Erro ao cadastrar Usuario")
     public void deveApontarErroUsuarioSemSenha() {
 
-        HttpEntity<UserDTO> requisicao = new HttpEntity<>(new UserDTO(0L, "",
+        HttpEntity<UserDTO> requisicao = new HttpEntity<>(new UserDTO(0L, "aaaaaa",
                 "teste1@email.com", "", "Perfil do teste",
                 "https://imgur.com/u9RkTCj", "https://teste.linkedin.com",
                 "https://teste.github.com"));
@@ -153,9 +153,9 @@ public class UserControllerTest {
     public void deveAtualizarUmUser() {
 
         HttpEntity<UserDTO> requisicao = new HttpEntity<UserDTO>(new UserDTO(1L, "Testerino",
-                "teste123@teste.com", "", "Perfil do teste",
+                "teste@teste.com", "", "Perfil do teste",
                 "https://imgur.com/u9RkTCj","https://teste.linkedin.com",
-                "https://teste.github.com"));
+                "https://teste123.github.com"));
 
         ResponseEntity<UserDTO> resposta = testRestTemplate
                 .withBasicAuth("teste@teste.com", "teste123")

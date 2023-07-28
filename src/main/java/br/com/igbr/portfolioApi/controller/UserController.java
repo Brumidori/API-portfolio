@@ -51,13 +51,9 @@ public class UserController {
 
     @PostMapping("/signUp")
     public ResponseEntity<UserDTO> postUsuario(@Valid @RequestBody UserDTO user) {
-        try{
             return userService.signUpUser(user)
                     .map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
                     .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
-        }catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
     }
 
     @DeleteMapping("/{id}")
