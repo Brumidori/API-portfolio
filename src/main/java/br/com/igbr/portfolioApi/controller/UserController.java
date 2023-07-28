@@ -50,10 +50,10 @@ public class UserController {
     }
 
     @PostMapping("/signUp")
-    public ResponseEntity<UserModel> postUsuario(@Valid @RequestBody UserModel user) {
-        return userService.signUpUser(user)
-                .map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
-                .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
+    public ResponseEntity<UserDTO> postUsuario(@Valid @RequestBody UserDTO user) {
+            return userService.signUpUser(user)
+                    .map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
+                    .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
     }
 
     @DeleteMapping("/{id}")

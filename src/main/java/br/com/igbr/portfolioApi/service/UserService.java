@@ -23,16 +23,17 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public Optional<UserModel> signUpUser(UserModel user) {
+    public Optional<UserDTO> signUpUser(UserDTO user) {
         if (userRepository.findByEmail(user.getEmail()).isPresent())
             return Optional.empty();
 
         user.setPassword(cryptographyPassword(user.getPassword()));
-
-        return Optional.of(userRepository.save(user));
+        UserModel model = new UserModel(user);
+        userRepository.save(model);
+        return Optional.of(user);
     }
 
-    public Optional<UserModel> updateUser(UserModel user) {
+    public Optional<UserDTO> updateUser(UserDTO user) {
 
         if(userRepository.findById(user.getIdUser()).isPresent()) {
             Optional<UserModel> findUser = userRepository.findByEmail(user.getEmail());
@@ -42,8 +43,8 @@ public class UserService {
                         HttpStatus.BAD_REQUEST, "Email de usuário já existe!", null);
 
             user.setPassword(cryptographyPassword(user.getPassword()));
-
-            return Optional.ofNullable(userRepository.save(user));
+            userRepository.save(findUser.get());
+            return Optional.ofNullable(user);
         }
         return Optional.empty();
     }

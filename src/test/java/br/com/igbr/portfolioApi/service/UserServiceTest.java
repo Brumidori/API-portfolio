@@ -34,11 +34,11 @@ public class UserServiceTest {
     @DisplayName("Retorna UserModel Cadastro")
     @Order(1)
     public void signUpUser(){
-        UserModel user = new UserModel(0L, "Testerino", "teste@teste.com",
+        UserDTO user = new UserDTO(0L, "Testerino", "teste@teste.com",
                 "teste123", "Perfil do teste", "https://imgur.com/u9RkTCj",
                 "https://teste.linkedin.com", "https://teste.github.com");
 
-        Optional<UserModel> newUser = service.signUpUser(user);
+        Optional<UserDTO> newUser = service.signUpUser(user);
 
         assertTrue(newUser.isPresent());
 
@@ -61,11 +61,11 @@ public class UserServiceTest {
     @DisplayName("Retorna UserModel Editado")
     @Order(3)
     public void updateUser(){
-        UserModel user = new UserModel(1L, "Testerino Editado", "teste2@teste.com",
+        UserDTO user = new UserDTO(1L, "Testerino Editado", "teste2@teste.com",
                 "teste1234", "Perfil do teste 2", "https://imgur.com/u9RkTCj",
                 "https://teste.linkedin.com", "https://teste.github.com");
 
-        Optional<UserModel> updatedUser = service.updateUser(user);
+        Optional<UserDTO> updatedUser = service.updateUser(user);
 
         assertEquals("Testerino Editado", updatedUser.get().getName());
         assertEquals("Perfil do teste 2", updatedUser.get().getBiography());
