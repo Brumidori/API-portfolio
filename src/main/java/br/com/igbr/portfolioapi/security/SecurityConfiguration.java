@@ -28,8 +28,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/v3/api-docs/", "/swagger-ui.html", "/swagger-ui/").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/user/signUp").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui.html","swagger-ui/**").permitAll()                        .requestMatchers(HttpMethod.POST, "/user/signUp").permitAll()
                         .requestMatchers(HttpMethod.GET, "/user").permitAll()
                         .requestMatchers(HttpMethod.GET, "/user/{id}").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/login").permitAll()
